@@ -38,9 +38,8 @@ def register(request):
             newuser=user_form.save(commit=False)
             newuser.set_password(user_form.cleaned_data['password'])
             newuser.save()
-            Profile.objects.create(user=newuser)
+            # Profile is automatically created by the signal
             return redirect('login')
-            #return redirect('login')
     else:
         user_form = UserRegistrationForm()
     return render(request,'users/register.html',{'user_form':user_form})
@@ -58,12 +57,6 @@ def edit(request):
         profile_form = ProfileEditForm(instance=request.user.profile)
     return render(request,'users/edit.html',{'user_form': user_form, 'profile_form': profile_form})
 
-
-
-
-
 def user_logout(request):
-   
     logout(request)
-   
     return render(request, 'users/logout.html')
