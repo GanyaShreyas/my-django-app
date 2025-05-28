@@ -1,7 +1,4 @@
-from django.test import TestCase
-
-# Create your tests here.
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import Profile
@@ -28,6 +25,11 @@ class UserModelTest(TestCase):
         """Test profile string representation"""
         self.assertEqual(str(self.profile), 'testuser')
 
+@override_settings(
+    SECURE_SSL_REDIRECT=False,
+    SESSION_COOKIE_SECURE=False,
+    CSRF_COOKIE_SECURE=False
+)
 class UserViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
