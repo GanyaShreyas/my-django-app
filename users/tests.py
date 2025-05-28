@@ -64,7 +64,8 @@ class UserViewsTest(TestCase):
         """Test user logout view"""
         self.client.login(username='testuser', password='testpass123')
         response = self.client.get(reverse('logout'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)  # Redirect to login page
+        self.assertEqual(response.url, reverse('login'))  # Verify redirect to login page
 
     def test_edit_view(self):
         """Test profile edit view"""
