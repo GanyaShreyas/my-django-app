@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIXIFY </title>
+    <link rel="stylesheet" href="{% static 'users/styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .nav-item:hover {
+            border-bottom: 2px solid #3B82F6; /* Same blue color */
+        }
+    </style>
+</head>
+<body>
+    <nav class="shadow-lg bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <a class="flex items-center" href="">
+                        <img class="h-10 w-10 mr-3" src="{% static 'users/images/logo.png' %}" alt="Logo">
+                        <span class="font-bold text-xl text-blue-500">PIXIFY</span>
+                    </a>
+                </div>
+                <div class="flex space-x-6">
+                    {% if request.user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <a class="nav-item py-2 px-4 text-blue-500 font-semibold hover:text-blue-700 transition duration-300" href="{% url 'edit' %}">PROFILE</a>
+                        <a class="nav-item py-2 px-4 text-blue-500 font-semibold hover:text-blue-700 transition duration-300" href="{% url 'create' %}">CREATE</a>
+                        <a class="nav-item py-2 px-4 text-blue-500 font-semibold hover:text-blue-700 transition duration-300" href="{% url 'feed' %}">FEEDS</a>
+                        <a class="nav-item py-2 px-4 text-blue-500 font-semibold hover:text-blue-700 transition duration-300" href="{% url 'password_change' %}">CHANGE PASSWORD</a>
+                        <button type="submit" class="nav-item py-2 px-4 text-blue-500 font-semibold hover:text-blue-700 transition duration-300">LOGOUT</button>
+
+
+
+
+
+
+                    </form>
+                    {% else %}
+                    <a class="nav-item py-2 px-4 text-blue-500 font-semibold hover:text-blue-700 transition duration-300" href="{% url 'login' %}">LOGIN</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

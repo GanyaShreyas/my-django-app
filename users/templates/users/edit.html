@@ -1,0 +1,136 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block body %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+    
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f8ff; /* Light blue background */
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .form-container {
+        max-width: 700px;
+        margin: 40px auto; /* Added margin to keep the container away from the navbar */
+        padding: 30px;
+        background-color: #f0f8ff; /* Light blue background */
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: #1e3a8a; /* Dark blue */
+        font-weight: 700;
+    }
+
+    .form-container label {
+        color: #1e3a8a;
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-container .form-input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #1e3a8a;
+        border-radius: 5px;
+        background-color: white;
+        color: #1e3a8a;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        font-size: 1rem;
+    }
+
+    .form-container .form-input:focus {
+        outline: none;
+        border-color: #2563eb;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 12px;
+        background-color: #2563eb; /* Blue */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .form-container button:hover {
+        background-color: #1e3a8a;
+    }
+
+    .photo-container {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #1e3a8a;
+        border-radius: 5px;
+        background-color: white;
+        color: #1e3a8a;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .photo-container img {
+        max-width: 100px;
+        margin-right: 15px;
+    }
+
+    .photo-container input {
+        flex: 1;
+    }
+    input:focus{
+    outline: none;
+}
+</style>
+
+<div class="py-5 mx-5 my-5 form-container">
+    <h2>EDIT YOUR PROFILE</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="id_first_name">FIRSTNAME</label>
+            <div class="shadow appearence-none border rounded py-2 px-3 text-blue-700 form-input">
+                {{ user_form.first_name }}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="id_last_name">LASTNAME</label>
+            <div class="shadow appearence-none border rounded py-2 px-3 text-blue-700 form-input">
+                {{ user_form.last_name }}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="id_email">EMAIL</label>
+            <div class="shadow appearence-none border rounded py-2 px-3 text-blue-700 form-input">
+                {{ user_form.email }}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="id_photo">PHOTO</label>
+            <div class="photo-container">
+                {% if profile_form.photo.value %}
+                    <img src="{{ profile_form.photo.value.url }}" alt="Current photo">
+                {% endif %}
+                {{ profile_form.photo }}
+            </div>
+        </div>
+
+        <button type="submit" class="bg-blue-500 text-white mt-5 px-5 py-2">Save changes</button>
+    </form>
+</div>
+{% endblock %}
