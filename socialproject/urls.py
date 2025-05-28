@@ -15,14 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.shortcuts import redirect
+
+def redirect_to_login(request):
+    return redirect('login')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/',include('users.urls')),
-    path('posts/',include('posts.urls')),
-    
+    path('users/', include('users.urls')),
+    path('posts/', include('posts.urls')),
+    path('', redirect_to_login, name='home'),  # This will redirect root URL to login
 ]
-urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
