@@ -17,10 +17,10 @@ class UserModelTest(TestCase):
             email='test@example.com',
             password='testpass123'
         )
-        self.profile = Profile.objects.get(user=self.user)
+        self.profile = Profile.objects.create(user=self.user)
 
     def test_profile_creation(self):
-        """Test if profile is automatically created with user"""
+        """Test if profile is created with user"""
         self.assertIsNotNone(self.profile)
         self.assertEqual(self.profile.user, self.user)
 
@@ -36,7 +36,7 @@ class UserViewsTest(TestCase):
             email='test@example.com',
             password='testpass123'
         )
-        self.profile = Profile.objects.get(user=self.user)
+        self.profile = Profile.objects.create(user=self.user)
 
     def test_register_view(self):
         """Test user registration view"""
@@ -48,6 +48,9 @@ class UserViewsTest(TestCase):
         })
         self.assertEqual(response.status_code, 302)  # Redirect after successful registration
         self.assertTrue(User.objects.filter(username='newuser').exists())
+        # Check if profile was created for new user
+        new_user = User.objects.get(username='newuser')
+        self.assertTrue(Profile.objects.filter(user=new_user).exists())
 
     def test_login_view(self):
         """Test user login view"""
@@ -115,6 +118,7 @@ class UserFormsTest(TestCase):
             email='test@example.com',
             password='testpass123'
         )
+        profile = Profile.objects.create(user=user)
         form_data = {
             'first_name': 'Updated',
             'last_name': 'User',
